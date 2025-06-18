@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>公司LDAP密码管理-公司IT</title>
+    <!-- 引入 WeUI CDN 链接 -->
+    <link rel="stylesheet" href="./static/css/weui.min.css" />
+    <link rel="stylesheet" href="./static/css/example.css" />
+    <!-- 新增 jQuery 引用 -->
+    <script src="./static/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./static/js/weui.min.js"></script>
+    <style>
+        .weui-dialog__btn.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 使用 -->
+    <div class="page js_show" tabindex="-1">
+        <div class="weui-form">
+            <div class="weui-form__bd">
+                <div class="weui-form__text-area">
+                    <h2 class="weui-form__title">公司LDAP密码管理</h2>
+                    <div class="weui-form__desc">密码重置</div>
+                </div>
+                <div class="weui-form__control-area">
+                    <div class="weui-cells__group weui-cells__group_form">
+                        <div class="weui-cells__title">如:请填写完整企业邮箱账号，如demo@example.com</div>
+                        <div class="weui-cells">
+                            <label for="js_input" class="weui-cell weui-cell_active">
+                                <div class="weui-cell__hd"><span class="weui-label">企业邮箱</span></div>
+                                <div class="weui-cell__bd">
+                                    <input id="js_input" class="weui-input" placeholder="填写企业邮箱账号" required />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-form__ft">
+                <div class="weui-form__tips-area">
+                    <label id="weuiAgree" for="weuiAgreeCheckbox" class="weui-agree weui-wa-hotarea">
+                        <input id="weuiAgreeCheckbox" type="checkbox" class="weui-agree__checkbox" /><span
+                            class="weui-agree__text">阅读并了解<a href="./view/policy.html" target="_blank">《公司信息安全管理须知》</a>
+                        </span>
+                    </label>
+                </div>
+                <div class="weui-form__opr-area">
+                    <button class="weui-btn weui-btn_primary" type="button" id="showTooltips" disabled>确认重置</button>
+                </div>
+                <div class="weui-form__tips-area">
+                    <p class="weui-form__tips">
+                        确认重置后，将给您发送重置邮件
+                    </p>
+                </div>
+                <div class="weui-form__extra-area">
+                    <div class="weui-footer">
+                        <p class="weui-footer__links">
+                            <a href="https://it.example.com/" target="_blank"
+                                class="weui-footer__link">狼人的公司-运维平台部</a>
+                        </p>
+                        <p class="weui-footer__text">Copyright © 2025 it.example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="alert" id="js_toast" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content">已完成</p>
+            </div>
+        </div>
+
+        <!-- 弹出提示 -->
+        <div id="dialogs">
+            <div class="js_dialog" role="dialog" aria-hidden="true" aria-modal="true" aria-labelledby="js_title1"
+                id="iosDialog1" style="display: none;">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__hd"><strong class="weui-dialog__title" id="js_title1">重置确认</strong></div>
+                    <div class="weui-dialog__bd">是否确认发起密码重置？</div>
+                    <div class="weui-dialog__ft">
+                        <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+                        <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary">确认</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            var $toast = $('#js_toast');
+            var $input = $('#js_input');
+            var $dialog = $('#iosDialog1');
+            //输入事件监听
+            $input.on('input', function () {
+                updateButtonState();
+            });
+            // 新增协议勾选事件监听
+            $('#weuiAgreeCheckbox').on('change', function () {
+                updateButtonState();
+            });
+            function updateButtonState() {
+                const hasInput = !!$input.val();
+                const isAgreed = $('#weuiAgreeCheckbox').is(':checked');
+                if (hasInput && isAgreed) {
+                    $('#showTooltips').removeClass('weui-btn_disabled');
+                    $('#showTooltips').attr('aria-disabled', 'false');
+                    $('#showTooltips').removeAttr('disabled');
+                } else {
+                    $('#showTooltips').addClass('weui-btn_disabled');
+                    $('#showTooltips').attr('aria-disabled', 'true');
+                    $('#showTooltips').attr('disabled', 'disabled');
+                }
+            }
+            $('#showTooltips').on('click', function () {
+                if ($(this).hasClass('weui-btn_disabled')) return;
+                // 新增邮箱验证
+                const email = $('#js_input').val().trim();
+                if (!email.endsWith('@example.com')) {
+                    weui.topTips('请输入正确的企业邮箱地址（以@example.com结尾）', {
+                        duration: 2000,
+                        className: 'custom-error'
+                    });
+                    return;
+                }
+                $('.page.cell').removeClass('slideIn');
+                $dialog.fadeIn(200);
+                $dialog.attr('aria-hidden', 'false');
+                $dialog.attr('tabindex', '0');
+                $dialog.trigger('focus');
+                $('#iosDialog1').on('click', '.weui-dialog__btn_default', function () {
+                    $dialog.fadeOut(200);
+                    $dialog.attr('aria-hidden', 'true');
+                    // 新增焦点转移
+                    $('#js_input').trigger('focus');  // 转移焦点到输入框
+                    $dialog.removeAttr('tabindex');  // 移除tabindex属性
+                });
+                $('#iosDialog1').on('click', '.weui-dialog__btn_primary', function () {
+                    const $btn = $(this);
+                    if ($btn.hasClass('disabled')) return; // 新增防重复点击判断
+                    $btn.addClass('disabled'); // 添加禁用状态
+                    const loading = weui.loading('提交中...');
+                    const email = $('#js_input').val().trim();
+
+                    $.post('request_reset.php', { email: email })
+                        .always(function () { // 使用always确保恢复状态
+                            loading.hide();
+                            $btn.removeClass('disabled');
+                        })
+                        .done(function (response) {
+                            loading.hide();
+                            if (response.exists) {
+                                window.location.href = `./view/success.html`;
+                            } else {
+                                window.location.href = `./view/error.html`;
+                            }
+                        })
+                        .fail(function () {
+                            loading.hide();
+                            weui.topTips('服务器请求失败，请稍后重试', 2000);
+                        });
+
+                    $dialog.fadeOut(200);
+                    $dialog.attr('aria-hidden', 'true');
+                });
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>公司LDAP密码管理-公司IT</title>
+    <!-- 引入 WeUI CDN 链接 -->
+    <link rel="stylesheet" href="../static/css/weui.min.css" />
+    <link rel="stylesheet" href="../static/css/example.css" />
+    <!-- 新增 jQuery 引用 -->
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="page msg_custom_area_tips js_show" tabindex="-1">
+            <div class="weui-msg">
+                <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+                <div class="weui-msg__text-area">
+                    <h2 class="weui-msg__title">修改失败</h2>
+                    <p class="weui-msg__desc">请联系IT支持处理</p>
+                    <div class="weui-msg__custom-area">
+                        <ul class="weui-list-tips">
+                            <li role="option" class="weui-list-tips__item">如未申请过LDAP账号，请前往"企微工作台-审批-LDAP账号权限申请"提交申请</li>
+                            <li role="option" class="weui-list-tips__item">如邮箱号输入错误，请返回上一页重新输入尝试，注意不要包含空格等错误字符</li>
+                            <li role="option" class="weui-list-tips__item">如以上提示无法解决，请联系IT支持</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="weui-msg__opr-area">
+                    <p class="weui-btn-area">
+                        <a href="javascript:history.back();" role="button" class="weui-btn weui-btn_default">返回</a>
+                    </p>
+                </div>
+                <div class="weui-msg__extra-area">
+                    <div class="weui-footer">
+                        <p class="weui-footer__links">
+                            <a href="https://it.example.com/" target="_blank"
+                                class="weui-footer__link">狼人的公司-运维平台部</a>
+                        </p>
+                        <p class="weui-footer__text">Copyright © 2025 it.example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
