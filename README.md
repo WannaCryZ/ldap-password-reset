@@ -16,7 +16,6 @@ PHP开发的LDAP密码修改工具（LDAP Password Modification Tool for PHP）
 - 使用`PHPMailer`函数包。直接用PHP就可以发送，无需搭建额外的Email服务。
 #### 3、前端样式
 - 使用`WeUI`样式库
-- 使用`Layui`样式库
 ### 技术架构
 1、前端使用WEUI样式/Layui样式
 2、后端使用PHP语言开发
@@ -36,8 +35,6 @@ PHP开发的LDAP密码修改工具（LDAP Password Modification Tool for PHP）
 
 #### WEUI版
 ![Image](https://github.com/user-attachments/assets/b30db39f-916e-4e92-82c6-6d6b7528e54f)
-#### Layui版
-![Image](https://github.com/user-attachments/assets/0d5d4d9c-e879-43a3-8c97-a747a91f9342)
 #### 邮件界面
 ![Image](https://github.com/user-attachments/assets/b0b3e151-fa5a-4a90-aa77-ce2cef6ca841)
 ### 优化方向
